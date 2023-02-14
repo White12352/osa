@@ -23,16 +23,20 @@ mkdir -p files/etc/hotplug.d/block && curl -fsSL https://raw.githubusercontent.c
 #sed -i 's/192.168.7.1/192.168.5.5/g' package/base-files/files/bin/config_generate
 #sed -i 's/192.168.8.1/192.168.5.5/g' package/base-files/files/bin/config_generate
 #sed -i 's/192.168.9.1/192.168.5.5/g' package/base-files/files/bin/config_generate
-sed -i 's/192.168.1.1/192.168.5.5/g' package/base-files/files/bin/config_generate
+sed -i 's/192.168.1.1/192.168.5.6/g' package/base-files/files/bin/config_generate
 
 # 最大连接数修改为65535
 #sed -i '/customized in this file/a net.netfilter.nf_conntrack_max=65535' package/base-files/files/etc/sysctl.conf
 
 # git clone https://github.com/siropboy/sirpdboy-package package/sirpdboy-package
 # git clone https://github.com/small-5/luci-app-adblock-plus package/adblock-plus
+rm -rf feeds/packages/net/adguardhome
+rm -rf feeds/luci/applications/luci-app-adguardhome
 svn co https://github.com/281677160/openwrt-package/trunk/luci-app-adguardhome package/luci-app-adguardhome
 svn co https://github.com/281677160/openwrt-package/trunk/adguardhome package/adguardhome
 svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-easymesh package/luci-app-easymesh
+#svn co https://github.com/281677160/openwrt-package/trunk/luci-app-adguardhome package/luci-app-mosdns
+#svn co https://github.com/281677160/openwrt-package/trunk/mosdns package/mosdns
 #rm -rf package/helloworld
 rm -rf feeds/luci/applications/luci-app-ssr-plus
 git clone --depth=1 https://github.com/fw876/helloworld.git package/helloworld
@@ -43,6 +47,7 @@ git clone https://github.com/vernesong/OpenClash package/luci-app-openclash
 git clone --depth 1 -b packages https://github.com/xiaorouji/openwrt-passwall package/passwall
 git clone --depth 1 -b luci https://github.com/xiaorouji/openwrt-passwall package/luci-app-passwall
 rm -rf feeds/luci/applications/luci-app-smartdns
+rm -rf feeds/packages/net/smartdns
 svn co https://github.com/281677160/openwrt-package/trunk/luci-app-smartdns package/luci-app-smartdns
 svn co https://github.com/281677160/openwrt-package/trunk/smartdns package/smartdns
 svn co https://github.com/kenzok8/openwrt-packages/trunk/aliyundrive-webdav package/aliyundrive-webdav
@@ -50,12 +55,19 @@ svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-aliyundrive-we
 #rm -rf package/feeds/luci/luci-theme-neobird
 #git clone https://github.com/lwb1978/luci-theme-neobird.git package/feeds/luci/luci-theme-neobird
 git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git package/feeds/luci/luci-theme-argon-18.06
-#rm -rf feeds/luci/applications/luci-app-unblockneteasemusic
-#git clone -b master https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git package/luci-app-unblockneteasemusic
+rm -rf feeds/luci/applications/luci-app-unblockneteasemusic
+git clone -b master https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git package/luci-app-unblockneteasemusic
+#svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-unblockneteasemusic package/luci-app-unblockneteasemusic
 rm -rf feeds/luci/applications/luci-app-argon-config
 git clone https://github.com/jerrykuku/luci-app-argon-config.git package/luci-app-argon-config
 rm -rf feeds/luci/applications/luci-app-omcproxy
 git clone -b 18.06 https://github.com/lwb1978/luci-app-omcproxy.git package/luci-app-omcproxy
 git clone https://github.com/destan19/OpenAppFilter.git package/OpenAppFilter
+rm -rf feeds/packages/net/v2ray-geodata
+find ./ | grep Makefile | grep v2ray-geodata | xargs rm -f
+find ./ | grep Makefile | grep mosdns | xargs rm -f
+
+git clone https://github.com/sbwml/luci-app-mosdns package/mosdns
+git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
 # 把bootstrap替换成argon为源码必选主题（可自行修改您要的,主题名称必须对,比如下面代码的[argon],源码内必须有该主题,要不然编译失败）
 sed -i "s/bootstrap/argon-18.06/ig" feeds/luci/collections/luci/Makefile
